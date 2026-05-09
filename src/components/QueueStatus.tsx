@@ -56,10 +56,13 @@ export function QueueStatus() {
   return (
     <div>
       <section className="indicator-section">
-        <BooleanIndicator value={data.isPaused} title="Paused" />
-        <NumberIndicator value={data.pending} title="Executing" />
-        <NumberIndicator value={data.waiting} title="Waiting" />
-        <NumberIndicator value={data.concurrency} title="Concurrency" />
+        <h3>Queue Stats</h3>
+        <div className="indicator-row">
+          <BooleanIndicator value={data.isPaused} title="Paused" />
+          <NumberIndicator value={data.pending} title="Executing" />
+          <NumberIndicator value={data.waiting} title="Waiting" />
+          <NumberIndicator value={data.concurrency} title="Concurrency" />
+        </div>
       </section>
 
       <section className="events-section">
