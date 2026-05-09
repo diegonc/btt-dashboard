@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import type { QueueInfo } from "../types/queue";
@@ -12,10 +12,12 @@ interface QueueEvent {
 }
 
 export function QueueStatus() {
-  const { data, isPending, error } = useQuery<QueueInfo>({
+  const { data, isPending, error, refetch } = useQuery<QueueInfo>({
     queryKey: ["queue"],
     queryFn: () => fetch("/api/v1/queue/stats").then((res) => res.json()),
   });
+
+  const triggerRefetch = useCallback(() => refetch(), [refetch]);
 
   const [events, setEvents] = useState<QueueEvent[]>([]);
 
@@ -25,10 +27,7 @@ export function QueueStatus() {
     const handleMessage = (event: MessageEvent) => {
       try {
         const data = JSON.parse(event.data);
-        setEvents((prev) => [
-          { ...data, timestamp: Date.now() },
-          ...prev,
-        ]);
+        setEvents((prev) => [{ ...data, timestamp: Date.now() }, ...prev]);
       } catch (err) {
         console.error("Failed to parse event:", err);
       }
@@ -56,7 +55,16 @@ export function QueueStatus() {
   return (
     <div>
       <section className="indicator-section">
-        <h3>Queue Stats</h3>
+        <div className="section-header">
+          <h3>Queue Stats</h3>
+          <button
+            className="reload-button"
+            type="button"
+            onClick={triggerRefetch}
+          >
+            Reload
+          </button>
+        </div>
         <div className="indicator-row">
           <BooleanIndicator value={data.isPaused} title="Paused" />
           <NumberIndicator value={data.pending} title="Executing" />
@@ -74,7 +82,9 @@ export function QueueStatus() {
             events.map((event, index) => (
               <div key={index} className="event-item">
                 <span className="event-type">{event.type}</span>
-                <span className="event-time">{formatTime(event.timestamp)}</span>
+                <span className="event-time">
+                  {formatTime(event.timestamp)}
+                </span>
               </div>
             ))
           )}
