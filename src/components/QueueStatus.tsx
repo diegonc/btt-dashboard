@@ -7,7 +7,7 @@ import { NumberIndicator } from "./NumberIndicator";
 export function QueueStatus() {
   const { data, isPending, error } = useQuery<QueueInfo>({
     queryKey: ["queue"],
-    queryFn: () => fetch("/api/v1/queue").then((res) => res.json()),
+    queryFn: () => fetch("/api/v1/queue/stats").then((res) => res.json()),
   });
 
   if (isPending) {
