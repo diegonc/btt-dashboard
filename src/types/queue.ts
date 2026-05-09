@@ -5,10 +5,6 @@ export type RunningTask = {
   timeout?: number;
 };
 
-export type WaitingTask = {
-  id: string;
-};
-
 export type QueueInfo = {
   isPaused: boolean;
   isSaturated: boolean;
@@ -16,5 +12,4 @@ export type QueueInfo = {
   waiting: number;
   concurrency: number;
   runningTasks: Array<RunningTask>;
-  //waitingTasks: Array<{ run: Function }>;
 };
