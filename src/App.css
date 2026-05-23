@@ -135,3 +135,21 @@
   color: #999;
   font-size: 0.9em;
 }
+
+.feedback-message {
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.feedback-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.feedback-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
